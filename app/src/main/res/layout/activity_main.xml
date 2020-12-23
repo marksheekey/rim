@@ -4,12 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="10dp"
     tools:context=".MainActivity">
 
+   <ProgressBar
+       android:translationZ="5dp"
+       android:id="@+id/progress"
+       style="?android:attr/progressBarStyleLarge"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+   </ProgressBar>
+
+   <TextView
+       android:layout_marginBottom="20dp"
+       android:textStyle="bold"
+       android:textColor="@color/black"
+       android:textSize="20sp"
+       android:id="@+id/station"
+       app:layout_constraintTop_toTopOf="parent"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+   </TextView>
+
+   <androidx.recyclerview.widget.RecyclerView
+       app:layout_constraintVertical_bias="0"
+       app:layout_constraintTop_toBottomOf="@id/station"
+       app:layout_constraintBottom_toTopOf="@id/refresh"
+       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+       android:id="@+id/list_recycler"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+   </androidx.recyclerview.widget.RecyclerView>
+
    <Button
+       android:visibility="gone"
        android:id="@+id/refresh"
        android:text="Refresh"
-       app:layout_constraintTop_toTopOf="parent"
        app:layout_constraintBottom_toBottomOf="parent"
        android:layout_width="match_parent"
        android:layout_height="wrap_content">
