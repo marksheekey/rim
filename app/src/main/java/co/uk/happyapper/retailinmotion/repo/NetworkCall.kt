@@ -1,5 +1,4 @@
 package co.uk.happyapper.retailinmotion
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.uk.happyapper.retailinmotion.repo.Resource
 import retrofit2.Call
