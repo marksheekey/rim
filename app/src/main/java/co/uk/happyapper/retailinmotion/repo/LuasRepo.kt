@@ -12,11 +12,13 @@ class LuasRepo(private val apiService: LuasApiService) {
 
 @Root(name = "stopInfo", strict = false)
 class StopInfo @JvmOverloads constructor(
+    @field: Attribute(name = "stop", required = false)
+    var stopName: String = "",
     @field: Attribute(name = "stopAbv", required = false)
     var stop: String = "",
-    @field: Element(name = "message",required = false)
+    @field: Element(name = "message", required = false)
     var message: String? = null,
-    @field: ElementList(name = "direction",required = false, inline = true)
+    @field: ElementList(name = "direction", required = false, inline = true)
     var directions: List<LuasDirection>? = null
 )
 

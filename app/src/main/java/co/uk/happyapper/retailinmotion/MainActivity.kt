@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import co.uk.happyapper.retailinmotion.repo.Resource
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -19,31 +18,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel.data.observe(this, { status ->
-            when (status.status) {
-                Resource.Status.ERROR -> {
-                    Toast.makeText(applicationContext, "There was an error", Toast.LENGTH_SHORT)
-                        .show()
+        viewModel.data.observe(this, { data ->
+            when (data) {
+                is LuasUI.LuasError -> {
+                    Toast.makeText(applicationContext, data.message, Toast.LENGTH_SHORT).show()
                 }
-                Resource.Status.LOADING -> {
+                is LuasUI.LuasLoading -> {
                     findViewById<ProgressBar>(R.id.progress).isVisible = true
                 }
-                Resource.Status.SUCCESS -> {
-                    status.data?.let { data ->
-                        viewModel.gotData(data)
-                    }
+                is LuasUI.LuasData -> {
+                    showData(data.data)
                 }
             }
-        })
-
-        viewModel.info.observe(this, { data ->
-            showData(data)
         })
 
         findViewById<Button>(R.id.refresh).setOnClickListener {
             it.isVisible = false
             viewModel.refresh()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.refresh()
     }
 
