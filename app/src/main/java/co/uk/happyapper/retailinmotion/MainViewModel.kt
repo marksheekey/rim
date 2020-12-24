@@ -26,17 +26,21 @@ class MainViewModel(private val luasRepo: LuasRepo, private val clockService: Cl
                 Resource.Status.ERROR -> LuasUI.LuasError(message = it.apiError + "")
                 Resource.Status.LOADING -> LuasUI.LuasLoading
                 Resource.Status.SUCCESS -> it.data?.let { stopInfo ->
-                    if (Station.valueOf(stopInfo.stop) == Station.MARLBOROUGH) {
-                        stopInfo.directions?.filter { it.name == "Outbound" }?.first().run {
-                            LuasUI.LuasData(UIData(stopInfo.stopName, this?.tramDestinations))
-                        }
-                    } else {
-                        stopInfo.directions?.filter { it.name == "Inbound" }?.first().run {
-                            LuasUI.LuasData(UIData(stopInfo.stopName, this?.tramDestinations))
-                        }
-                    }
+                    returnTrams(stopInfo)
                 }
             }
+        }
+    }
+}
+
+private fun returnTrams(stopInfo: StopInfo): LuasUI.LuasData {
+    if (Station.valueOf(stopInfo.stop) == Station.MARLBOROUGH) {
+        stopInfo.directions?.filter { it.name == "Outbound" }?.first().run {
+            return LuasUI.LuasData(UIData(stopInfo.stopName, this?.tramDestinations))
+        }
+    } else {
+        stopInfo.directions?.filter { it.name == "Inbound" }?.first().run {
+            return LuasUI.LuasData(UIData(stopInfo.stopName, this?.tramDestinations))
         }
     }
 }
