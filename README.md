@@ -1,4 +1,4 @@
-# rim
+# Retail In Motion
 Used KOIN for dependency injection
 
 I'll admit it's the 1st time Ive done any unit testing on livedata but I seem to have it working. Sp at leats I've learned something!
