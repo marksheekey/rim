@@ -21,7 +21,7 @@ class MainViewModel(private val luasRepo: LuasRepo, private val clockService: Cl
     }
 
     val data = updateData.switchMap { station ->
-        luasRepo.getStopInfo(station.name).map {
+        luasRepo.getStopInfo(station.type).map {
             when (it.status) {
                 Resource.Status.ERROR -> LuasUI.LuasError(message = it.apiError + "")
                 Resource.Status.LOADING -> LuasUI.LuasLoading
@@ -35,7 +35,7 @@ class MainViewModel(private val luasRepo: LuasRepo, private val clockService: Cl
 
 
 private fun returnTrams(stopInfo: StopInfo): LuasUI.LuasData {
-    if (Station.valueOf(stopInfo.stop) == Station.MARLBOROUGH) {
+    if (Station.getStation(stopInfo.stop) == Station.MARLBOROUGH) {
         stopInfo.directions?.filter { it.name == "Outbound" }?.first().run {
             return LuasUI.LuasData(
                 UIData(
@@ -60,7 +60,15 @@ private fun returnTrams(stopInfo: StopInfo): LuasUI.LuasData {
 
 enum class Station(val type: String) {
     MARLBOROUGH("MAR"),
-    STILLORGAN("STI")
+    STILLORGAN("STI"),
+    UNKNOWN("???");
+
+    companion object {
+        fun getStation(id: String): Station {
+            return values().firstOrNull() { it.type == id } ?: UNKNOWN
+        }
+    }
+
 }
 
 class UIData(
