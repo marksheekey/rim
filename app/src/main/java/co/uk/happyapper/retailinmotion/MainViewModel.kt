@@ -33,14 +33,27 @@ class MainViewModel(private val luasRepo: LuasRepo, private val clockService: Cl
     }
 }
 
+
 private fun returnTrams(stopInfo: StopInfo): LuasUI.LuasData {
     if (Station.valueOf(stopInfo.stop) == Station.MARLBOROUGH) {
         stopInfo.directions?.filter { it.name == "Outbound" }?.first().run {
-            return LuasUI.LuasData(UIData(stopInfo.stopName, this?.tramDestinations))
+            return LuasUI.LuasData(
+                UIData(
+                    stopInfo.stopName,
+                    stopInfo.message,
+                    this?.tramDestinations
+                )
+            )
         }
     } else {
         stopInfo.directions?.filter { it.name == "Inbound" }?.first().run {
-            return LuasUI.LuasData(UIData(stopInfo.stopName, this?.tramDestinations))
+            return LuasUI.LuasData(
+                UIData(
+                    stopInfo.stopName,
+                    stopInfo.message,
+                    this?.tramDestinations
+                )
+            )
         }
     }
 }
@@ -52,6 +65,7 @@ enum class Station(val type: String) {
 
 class UIData(
     val station: String,
+    val message: String?,
     val destinations: List<TramDestination>?
 )
 

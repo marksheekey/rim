@@ -17,7 +17,6 @@
    </ProgressBar>
 
    <TextView
-       android:layout_marginBottom="20dp"
        android:textStyle="bold"
        android:textColor="@color/black"
        android:textSize="20sp"
@@ -28,9 +27,21 @@
 
    </TextView>
 
+   <TextView
+       android:layout_marginBottom="20dp"
+       android:textColor="@color/black"
+       android:textSize="20sp"
+       android:id="@+id/message"
+       app:layout_constraintTop_toBottomOf="@id/station"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+   </TextView>
+
+
    <androidx.recyclerview.widget.RecyclerView
        app:layout_constraintVertical_bias="0"
-       app:layout_constraintTop_toBottomOf="@id/station"
+       app:layout_constraintTop_toBottomOf="@id/message"
        app:layout_constraintBottom_toTopOf="@id/refresh"
        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
        android:id="@+id/list_recycler"

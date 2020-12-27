@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.refresh).isVisible = true
         findViewById<ProgressBar>(R.id.progress).isVisible = false
         findViewById<TextView>(R.id.station).text = ui.station
+        findViewById<TextView>(R.id.message).text = ui.message
         ui.destinations?.let {
             findViewById<RecyclerView>(R.id.list_recycler).apply {
                 adapter = TramItemAdapter(ui.destinations, this@MainActivity)
