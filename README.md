@@ -7,3 +7,7 @@ It's the 1st time I've processed XML responses - previoulsy it's always been JSO
 I've used Retrofit and I've used SimpleXmlConverterFactory to transform the XML to a Kotlin class. It's marked as  deprecated, but works. 
 Time allowing, I'll have a look at using something else.
 
+On something more complex I'd have used View binding, but that seems unnecessary on something so small, so just used findviewbyId
+
+
+
