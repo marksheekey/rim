@@ -45,6 +45,8 @@ class MainViewModelTest {
         viewModel.refresh()
         val test = (viewModel.data.value as LuasUI.LuasData).data.destinations?.get(0)?.destination
         assert(test.equals("TestIn"))
+        val station = (viewModel.data.value as LuasUI.LuasData).data.station
+        assert(station.equals("STILLORGAN"))
     }
 
     @Test
@@ -57,6 +59,8 @@ class MainViewModelTest {
         viewModel.refresh()
         val test = (viewModel.data.value as LuasUI.LuasData).data.destinations?.get(0)?.destination
         assert(test.equals("TestOut"))
+        val station = (viewModel.data.value as LuasUI.LuasData).data.station
+        assert(station.equals("MARLBOROUGH"))
     }
 }
 
