@@ -8,7 +8,8 @@ import com.snakydesign.livedataextensions.map
 import com.snakydesign.livedataextensions.switchMap
 
 
-class MainViewModel(private val luasRepo: LuasRepo, private val clockService: ClockService) : ViewModel() {
+class MainViewModel(private val luasRepo: LuasRepo, private val clockService: ClockService) :
+    ViewModel() {
 
     private val updateData: MutableLiveData<Station> = emptyLiveData()
 
@@ -34,28 +35,27 @@ class MainViewModel(private val luasRepo: LuasRepo, private val clockService: Cl
 }
 
 
-private fun returnTrams(stopInfo: StopInfo): LuasUI.LuasData {
-    if (Station.getStation(stopInfo.stop) == Station.MARLBOROUGH) {
-        stopInfo.directions?.filter { it.name == "Outbound" }?.first().run {
-            return LuasUI.LuasData(
-                UIData(
-                    stopInfo.stopName,
-                    stopInfo.message,
-                    this?.tramDestinations
-                )
-            )
-        }
-    } else {
-        stopInfo.directions?.filter { it.name == "Inbound" }?.first().run {
-            return LuasUI.LuasData(
-                UIData(
-                    stopInfo.stopName,
-                    stopInfo.message,
-                    this?.tramDestinations
-                )
-            )
-        }
+private fun returnTrams(stopInfo: StopInfo): LuasUI {
+    if (stopInfo.directions == null || stopInfo.directions?.size == 0) {
+        return LuasUI.LuasError("No trams found")
     }
+
+    val direction = if (Station.getStation(stopInfo.stop) == Station.MARLBOROUGH) {
+        "Outbound"
+    } else {
+        "Inbound"
+    }
+
+    stopInfo.directions?.filter { it.name == direction }?.firstOrNull()?.let { trams ->
+        return LuasUI.LuasData(
+            UIData(
+                stopInfo.stopName,
+                stopInfo.message,
+                trams.tramDestinations
+            )
+        )
+    }
+    return LuasUI.LuasError("No trams found")
 }
 
 enum class Station(val type: String) {

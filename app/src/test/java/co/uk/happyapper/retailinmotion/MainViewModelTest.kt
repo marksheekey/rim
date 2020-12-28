@@ -62,6 +62,20 @@ class MainViewModelTest {
         val station = (viewModel.data.value as LuasUI.LuasData).data.station
         assert(station.equals("MARLBOROUGH"))
     }
+
+    @Test
+    fun testNoTramsAvailiable() {
+        val marlborough = StopInfo("MARLBOROUGH", "MAR", "", emptyList())
+        every { luasRepo.getStopInfo("MAR") } answers { MutableLiveData(Resource.success(marlborough)) }
+        every { clockService.getTimeFromMillis(1608831974713) } returns 1115
+        lifeCycleTestOwner.onResume()
+        val viewModel: MainViewModel = MainViewModel(luasRepo, clockService)
+        every { observer.onChanged(any()) } answers {}
+        viewModel.data.observeForever(observer)
+        viewModel.refresh()
+        val test = viewModel.data.value is LuasUI.LuasError
+        assert(test)
+    }
 }
 
 class LifeCycleTestOwner : LifecycleOwner {
